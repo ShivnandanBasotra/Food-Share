@@ -1,7 +1,46 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArrowRight, Utensils, Users, Truck } from 'lucide-react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
+
+const generateLineChartData = () => {
+  const data = [];
+  for (let i = 0; i < 12; i++) {
+    data.push({
+      month: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][i],
+      meals: Math.floor(Math.random() * 50000) + 10000,
+    });
+  }
+  return data;
+};
+
+const generateBarChartData = () => {
+  const data = [
+    { name: 'Restaurants', value: Math.floor(Math.random() * 1000) + 500 },
+    { name: 'Venues', value: Math.floor(Math.random() * 1000) + 500 },
+    { name: 'Individuals', value: Math.floor(Math.random() * 1000) + 500 },
+  ];
+  return data;
+};
+
+const generatePieChartData = () => {
+  const data = [
+    { name: 'Meals Served', value: Math.floor(Math.random() * 100000) + 50000 },
+    { name: 'Meals Saved', value: Math.floor(Math.random() * 100000) + 50000 },
+  ];
+  return data;
+};
 
 const LandingPage = () => {
+  const [lineChartData, setLineChartData] = useState([]);
+  const [barChartData, setBarChartData] = useState([]);
+  const [pieChartData, setPieChartData] = useState([]);
+
+  useEffect(() => {
+    setLineChartData(generateLineChartData());
+    setBarChartData(generateBarChartData());
+    setPieChartData(generatePieChartData());
+  }, []);
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-50 to-green-100">
       <header className="bg-white shadow-md">
@@ -67,7 +106,49 @@ const LandingPage = () => {
             <p className="text-xl mb-8">
               Partner with us to reduce food waste and make a difference in your community.
             </p>
-            <button className="bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-full text-lg font-semibold transition duration-300">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+              <div>
+                <h3 className="text-2xl font-bold mb-4">Impact of FoodShare</h3>
+                <ResponsiveContainer width="100%" height={400}>
+                  <LineChart data={lineChartData}>
+                    <XAxis dataKey="month" />
+                    <YAxis />
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <Tooltip />
+                    <Legend />
+                    <Line type="monotone" dataKey="meals" stroke="#8884d8" />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold mb-4">Partnerships Breakdown</h3>
+                <ResponsiveContainer width="100%" height={400}>
+                  <BarChart data={barChartData}>
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <Tooltip />
+                    <Legend />
+                    <Bar dataKey="value" fill="#8884d8" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+            <div className="mt-12">
+              <h3 className="text-2xl font-bold mb-4">Meals Served vs. Saved</h3>
+              <ResponsiveContainer width="100%" height={400}>
+                <PieChart>
+                  <Pie data={pieChartData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={120}>
+                    {pieChartData.map((_, index) => (
+                      <Cell key={`cell-${index}`} fill={index === 0 ? '#8884d8' : '#82ca9d'} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                  <Legend />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+            <button className="bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-full text-lg font-semibold transition duration-300 mt-8">
               Become a Partner
             </button>
           </div>
