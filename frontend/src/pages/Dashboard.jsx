@@ -4,6 +4,8 @@ import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, ResponsiveContaine
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Utensils, Truck, Users } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import userOnSignup from '@/atoms/authPageAtom';
 
 const generateLineChartData = () => {
   const data = [];
@@ -44,14 +46,16 @@ const Dashboard = () => {
     setPieChartData(generatePieChartData());
   }, []);
 
+  const navigate = useNavigate();
+
   return (
     <div className="min-h-screen bg-gray-100">
       <header className="bg-white shadow-md">
         <nav className="container mx-auto px-6 py-3 flex justify-between items-center">
-          <div className="text-2xl font-bold text-green-600">FoodShare</div>
+          <div onClick = {()=>{navigate('/')}}  className="text-2xl font-bold text-green-600 cursor-pointer">FoodShare</div>
           <div className="space-x-4">
-            <Button variant="primary">List Excess Food</Button>
-            <Button variant="secondary">View Donations</Button>
+            <Button onClick = {()=>{navigate('/list-food')}} variant="primary">List Excess Food</Button>
+            <Button onClick = {()=>{navigate('/leaderboard')}} variant="secondary">View Donations</Button>
           </div>
         </nav>
       </header>
@@ -114,19 +118,19 @@ const Dashboard = () => {
                 <Utensils className="mx-auto text-green-500 mb-4" size={48} />
                 <h3 className="text-xl font-semibold mb-2">List Excess Food</h3>
                 <p>Contribute your excess food to those in need.</p>
-                <Button variant="primary">List Excess</Button>
+                <Button onClick = {()=>{navigate('/list-food')}} variant="primary">List Food</Button>
               </div>
               <div className="text-center">
                 <Truck className="mx-auto text-green-500 mb-4" size={48} />
                 <h3 className="text-xl font-semibold mb-2">View Donations</h3>
                 <p>See the impact of your food donations.</p>
-                <Button variant="primary">View Donations</Button>
+                <Button onClick = {()=>{navigate('/leaderboard')}} variant="primary">View Donations</Button>
               </div>
               <div className="text-center">
                 <Users className="mx-auto text-green-500 mb-4" size={48} />
                 <h3 className="text-xl font-semibold mb-2">Feeding the Needy</h3>
                 <p>Learn more about how we distribute excess food.</p>
-                <Button variant="primary">Learn More</Button>
+                <Button onClick = {()=>{navigate('/learn-more')}} variant="primary">Learn More</Button>
               </div>
             </CardContent>
           </Card>

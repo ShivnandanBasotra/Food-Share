@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowRight, Utensils, Users, Truck } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
+import { useNavigate } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
+import userOnSignup from '@/atoms/authPageAtom';
 
 const generateLineChartData = () => {
   const data = [];
@@ -41,16 +44,18 @@ const LandingPage = () => {
     setPieChartData(generatePieChartData());
   }, []);
 
+  const navigate = useNavigate();
+  const setIsSignup = useSetRecoilState(userOnSignup);
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-50 to-green-100">
       <header className="bg-white shadow-md">
         <nav className="container mx-auto px-6 py-3 flex justify-between items-center">
           <div className="text-2xl font-bold text-green-600">FoodShare</div>
           <div className="space-x-4">
-            <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full transition duration-300">
+            <button onClick={()=>{navigate('/auth');setIsSignup(true)}} className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full transition duration-300">
               Sign Up
             </button>
-            <button className="bg-white hover:bg-green-100 text-green-500 px-4 py-2 rounded-full border border-green-500 transition duration-300">
+            <button onClick={()=>{navigate('/auth');setIsSignup(false)}} className="bg-white hover:bg-green-100 text-green-500 px-4 py-2 rounded-full border border-green-500 transition duration-300">
               Sign In
             </button>
           </div>
@@ -68,7 +73,7 @@ const LandingPage = () => {
                 <span className="inline-block animate-float animation-delay-900">Lifelines</span>
               </h1>
               <p className="text-xl mb-8 animate-fade-in-up animation-delay-1200">Connect excess food with those in need</p>
-              <button className="bg-white text-green-500 hover:bg-green-100 px-6 py-3 rounded-full text-lg font-semibold transition duration-300 flex items-center mx-auto animate-fade-in-up animation-delay-1500">
+              <button onClick={()=>{navigate('/auth');setIsSignup(true)}} className="bg-white text-green-500 hover:bg-green-100 px-6 py-3 rounded-full text-lg font-semibold transition duration-300 flex items-center mx-auto animate-fade-in-up animation-delay-1500">
                 Get Started
                 <ArrowRight className="ml-2" />
               </button>
@@ -134,21 +139,7 @@ const LandingPage = () => {
                 </ResponsiveContainer>
               </div>
             </div>
-            <div className="mt-12">
-              <h3 className="text-2xl font-bold mb-4">Meals Served vs. Saved</h3>
-              <ResponsiveContainer width="100%" height={400}>
-                <PieChart>
-                  <Pie data={pieChartData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={120}>
-                    {pieChartData.map((_, index) => (
-                      <Cell key={`cell-${index}`} fill={index === 0 ? '#8884d8' : '#82ca9d'} />
-                    ))}
-                  </Pie>
-                  <Tooltip />
-                  <Legend />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-            <button className="bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-full text-lg font-semibold transition duration-300 mt-8">
+            <button onClick={()=>{navigate('/auth');setIsSignup(true)}} className="bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-full text-lg font-semibold transition duration-300 mt-8">
               Become a Partner
             </button>
           </div>

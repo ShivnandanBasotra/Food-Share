@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import  {Input} from '@/components/ui/input';
 import { Textarea } from "@/components/ui/textarea"
 import { Utensils, Clock, MapPin } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const ListExcessFoodPage = () => {
   const [foodItem, setFoodItem] = useState('');
@@ -14,7 +15,6 @@ const ListExcessFoodPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Call backend API to list excess food
     console.log({
       foodItem,
       quantity,
@@ -24,6 +24,8 @@ const ListExcessFoodPage = () => {
     });
   };
 
+  const navigate = useNavigate();
+
   return (
     <div className="min-h-screen bg-gray-100 pt-16">
       <div className="container mx-auto px-6">
@@ -32,11 +34,11 @@ const ListExcessFoodPage = () => {
             <div className="flex items-center justify-between">
               <h2 className="text-2xl font-bold text-green-600">List Excess Food</h2>
               {/* <ButtonGroup> */}
-                <Button variant="secondary">
+                <Button onClick = {()=>{navigate('/my-listings')}} variant="secondary">
                   <Utensils className="mr-2" size={18} />
                   My Listed Items
                 </Button>
-                <Button variant="primary">
+                <Button onClick = {()=>{navigate('/upcoming-pickups')}} variant="primary">
                   <Clock className="mr-2" size={18} />
                   Upcoming Pickups
                 </Button>
